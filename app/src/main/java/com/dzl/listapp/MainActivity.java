@@ -2,13 +2,9 @@ package com.dzl.listapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -16,7 +12,8 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private ArrayList<Item> items;
+    private ItemsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView list = findViewById(R.id.recycler_view_list);
 
-        ArrayList<Item> items = new ArrayList<>(Arrays.asList(
+        items = new ArrayList<>(Arrays.asList(
                 new Item("High-Five a Dolphin", "Find a dolphin in the wild and casually give it a high-five.", R.drawable.bucket),
                 new Item("Zoom CEO Prank", "Join a random Zoom meeting and pretend you're the new CEO.", R.drawable.bucket),
                 new Item("Reverse Marathon", "Train to run a full marathon backward. Bonus points for moonwalking.", R.drawable.bucket),
@@ -49,19 +46,33 @@ public class MainActivity extends AppCompatActivity {
         ));
 
 
-
-
-        ItemsAdapter adapter = new ItemsAdapter(items, new ItemsAdapter.OnItemClickListener() {
+        adapter = new ItemsAdapter(items, new ItemsAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(Item item) {
+            public void onItemClick(Item item, int position) {
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 intent.putExtra("title", item.name);
                 intent.putExtra("description", item.description);
                 intent.putExtra("image", item.image);
-                startActivity(intent);
+                intent.putExtra("position", position);
+                startActivityForResult(intent, 1);
             }
         });
 
         list.setAdapter(adapter);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            int position = data.getIntExtra("position", -1);
+            if (position != -1) {
+                items.remove(position);
+                adapter.notifyItemRemoved(position);
+
+            }
+        }
     }
 }

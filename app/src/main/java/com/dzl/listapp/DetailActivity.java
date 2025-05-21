@@ -1,5 +1,6 @@
 package com.dzl.listapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,12 +27,14 @@ public class DetailActivity extends AppCompatActivity {
         descriptionTextView.setText(description != null ? description : "No data received");
 
         Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(DetailActivity.this, "Button clicked!", Toast.LENGTH_SHORT).show();
-            }
+        button.setOnClickListener(v -> {
+            int position = getIntent().getIntExtra("position", -1);
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("position", position);
+            setResult(RESULT_OK, resultIntent);
+            finish();
         });
+
 
 
     }

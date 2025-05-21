@@ -9,23 +9,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHolder> {
 
     public interface OnItemClickListener {
-        void onItemClick(Item item);
+        void onItemClick(Item item, int position);
     }
 
-    private Item[] items;
+    private List<Item> itemList;
     private OnItemClickListener listener;
 
-    public ItemsAdapter(Item[] items, OnItemClickListener listener) {
-        this.items = items;
+    public ItemsAdapter(List<Item> itemList, OnItemClickListener listener) {
+        this.itemList = itemList;
         this.listener = listener;
     }
 
     @Override
     public int getItemCount() {
-        return items.length;
+        return itemList.size();
     }
 
     @NonNull
@@ -36,7 +38,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     }
     @Override
     public void onBindViewHolder(@NonNull ItemsAdapter.ItemViewHolder holder, int position) {
-        holder.bind(items[position], listener);
+        Item item = itemList.get(position);
+        holder.bind(item, listener, position);
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -54,12 +57,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
             rootLayout = itemView.findViewById(R.id.relative_layout_item);
         }
 
-        public void bind(Item item, OnItemClickListener listener) {
+        public void bind(Item item, OnItemClickListener listener, int position) {
             itemTitle.setText(item.name);
             itemDescription.setText(item.description);
             itemImage.setImageResource(item.image);
 
-            rootLayout.setOnClickListener(v -> {listener.onItemClick(item);});
+            rootLayout.setOnClickListener(v -> {
+                int currentPosition = getAdapterPosition();
+                if (currentPosition != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(item, currentPosition);
+                }
+            });
         }
     }
 
