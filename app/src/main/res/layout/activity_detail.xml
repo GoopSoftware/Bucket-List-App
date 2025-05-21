@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <TextView
+            android:id="@+id/text_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textSize="44sp"
+            tools:text="The Legendary Quest to High-Five a Dolphin While Skydiving Through a Rainbow" />
+
+        <TextView
+            android:id="@+id/text_detail_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_detail_title"
+            android:layout_marginTop="25dp"
+            android:textSize="20sp"
+            android:padding="8dp"
+            tools:text="Once upon a time in the coastal city of Sunchaser Bay, a courageous adventurer decided to defy all odds and high-five a dolphin mid-air while skydiving through a triple rainbow. The mission required precise coordination, a dolphin whisperer, and a helicopter pilot with nerves of steel. The townsfolk gathered to witness what many considered the most absurd and daring stunt of the century. Some cried. Some laughed. All were changed forever." />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/button"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_detail_description"
+            android:layout_centerHorizontal="true"
+            android:text="Finished"/>
+
+    </RelativeLayout>
+</ScrollView>

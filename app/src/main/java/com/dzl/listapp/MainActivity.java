@@ -1,5 +1,6 @@
 package com.dzl.listapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
@@ -9,6 +10,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView list = findViewById(R.id.recycler_view_list);
 
-        Item[] items = {
+        ArrayList<Item> items = new ArrayList<>(Arrays.asList(
                 new Item("High-Five a Dolphin", "Find a dolphin in the wild and casually give it a high-five.", R.drawable.bucket),
                 new Item("Zoom CEO Prank", "Join a random Zoom meeting and pretend you're the new CEO.", R.drawable.bucket),
                 new Item("Reverse Marathon", "Train to run a full marathon backward. Bonus points for moonwalking.", R.drawable.bucket),
@@ -42,10 +46,21 @@ public class MainActivity extends AppCompatActivity {
                 new Item("Random Job Interview", "Apply for a job you have zero qualifications for, just to see what happens.", R.drawable.bucket),
                 new Item("Mystery Press Conference", "Hold a press conference for an event that never happened.", R.drawable.bucket),
                 new Item("Fake Language Fluency", "Become fluent in a language that doesn’t exist. Use it in serious situations.", R.drawable.bucket)
-        };
+        ));
 
 
-        ItemsAdapter adapter = new ItemsAdapter(items);
+
+
+        ItemsAdapter adapter = new ItemsAdapter(items, new ItemsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Item item) {
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra("title", item.name);
+                intent.putExtra("description", item.description);
+                intent.putExtra("image", item.image);
+                startActivity(intent);
+            }
+        });
 
         list.setAdapter(adapter);
     }

@@ -16,9 +16,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     }
 
     private Item[] items;
+    private OnItemClickListener listener;
 
-    public ItemsAdapter(Item[] items) {
+    public ItemsAdapter(Item[] items, OnItemClickListener listener) {
         this.items = items;
+        this.listener = listener;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     }
     @Override
     public void onBindViewHolder(@NonNull ItemsAdapter.ItemViewHolder holder, int position) {
-        holder.bind(items[position]);
+        holder.bind(items[position], listener);
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -42,18 +44,22 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         ImageView itemImage;
         TextView itemTitle;
         TextView itemDescription;
+        View rootLayout;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             itemImage = itemView.findViewById(R.id.image_view_item_icon);
             itemTitle = itemView.findViewById(R.id.text_view_title);
             itemDescription = itemView.findViewById(R.id.text_view_description);
+            rootLayout = itemView.findViewById(R.id.relative_layout_item);
         }
 
-        public void bind(Item item) {
+        public void bind(Item item, OnItemClickListener listener) {
             itemTitle.setText(item.name);
             itemDescription.setText(item.description);
             itemImage.setImageResource(item.image);
+
+            rootLayout.setOnClickListener(v -> {listener.onItemClick(item);});
         }
     }
 
