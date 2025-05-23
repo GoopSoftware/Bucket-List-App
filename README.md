@@ -24,3 +24,5 @@ An app I created to practice my initial learning for Android Development
 ![Home Screen](screenshots/home.png)
 
 ![Bucket List](screenshots/BL.png)
+
+![Bucket List](screenshots/details.png)
