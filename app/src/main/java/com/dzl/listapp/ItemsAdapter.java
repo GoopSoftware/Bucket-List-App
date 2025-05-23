@@ -1,5 +1,8 @@
 package com.dzl.listapp;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHolder> {
+
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_ADD_BUTTON = 1;
 
     public interface OnItemClickListener {
         void onItemClick(Item item, int position);
@@ -27,19 +33,36 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return itemList.size() + 1;
     }
 
     @NonNull
     @Override
     public ItemsAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
+        View view;
+        if (viewType == TYPE_ADD_BUTTON) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_button, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
+
+        }
         return new ItemViewHolder(view);
     }
     @Override
     public void onBindViewHolder(@NonNull ItemsAdapter.ItemViewHolder holder, int position) {
-        Item item = itemList.get(position);
-        holder.bind(item, listener, position);
+        if (position == itemList.size()) {
+            holder.bindAddButton();
+        } else {
+            holder.bind(itemList.get(position), listener, position);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == itemList.size()) {
+            return TYPE_ADD_BUTTON;
+        }
+        return TYPE_ITEM;
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -67,6 +90,18 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
                 if (currentPosition != RecyclerView.NO_POSITION) {
                     listener.onItemClick(item, currentPosition);
                 }
+            });
+        }
+
+        public void bindAddButton() {
+            itemTitle.setText("+ Add New Item");
+            itemDescription.setText("");
+            itemImage.setImageResource(R.drawable.bucket);
+
+            rootLayout.setOnClickListener(v -> {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, AddItemActivity.class);
+                ((Activity) context).startActivityForResult(intent, 2);
             });
         }
     }
