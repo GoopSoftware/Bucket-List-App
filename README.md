@@ -26,3 +26,5 @@ An app I created to practice my initial learning for Android Development
 ![Bucket List](screenshots/BL.png)
 
 ![Bucket List](screenshots/details.png)
+
+![Bucket List](screenshots/add.png)
