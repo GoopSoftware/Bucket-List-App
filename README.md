@@ -13,13 +13,13 @@ An app I created to practice my initial learning for Android Development
 - Tap and remove items after viewing their detail screen
 - Built with reusable code structure for easy updates
 
-## Teck Stack
+## Tech Stack
 - Language: Java
 - IDE: Android Studio
 - UI: XML, CardView, RecycvlerView, ImageView, TextView
 - Min SDK: 21
 
-## ScreenShots
+## Screenshots
 
 | Home                                 | List | Detail | Add New |
 |--------------------------------------|------|--------|----------|
