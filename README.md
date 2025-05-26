@@ -21,6 +21,6 @@ An app I created to practice my initial learning for Android Development
 
 ## Screenshots
 
-| Home                                 | List | Detail | Add New |
+| Home                                 | List | Detail | Form |
 |--------------------------------------|------|--------|----------|
 | ![Home Screen](screenshots/home.png) | ![Bucket List](screenshots/BL.png) | ![Details](screenshots/details.png) | ![Add Form](screenshots/add.png) |
